@@ -3,9 +3,12 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+
+# Add --no-optional flag to avoid optional dependencies issues
+RUN npm install --no-optional
 
 COPY . .
+
 RUN npm run build
 
 FROM nginx:alpine
